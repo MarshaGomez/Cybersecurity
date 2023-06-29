@@ -4,6 +4,14 @@ Course Foundations of Cybersecurity with Professor Dini
 ## Exam Practice 
 ### Exercise n.1
 
+State and prove the Shannon’s Theorem.
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
 ### Exercise n.2
 
 The hash function H(·) suffers from collision attacks in 241, exploiting the inner structure function and simply appending properly crafted blocks to the message. Besides this, the size of H(·), 128 bits, limits its maximum collision resistance to 264.
@@ -39,27 +47,84 @@ In summary, among the given proposals, (a) and (d) offer the most significant im
 </p>
 </details>
 
+### Exercise n.3
 
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
-### Exercise n.1
+Find and explain the vulnerabilities of the following function. Then patch them.
+````c++
+void ExpandVector(std::vector<int>& c) {
+  // This code wants to expand the vector c by doubling each of its
+  // elements. For example, the vector [1,2,3] must become
+  // [1,1,2,2,3,3].
+  auto i = c.begin();
+  while (i != c.end()) {
+    c.insert(i, *i);
+    i++;
+  }
+}
+````
+
+<details><summary>Solution</summary>
+<p>
+
+The given function, ExpandVector, intends to double each element in a vector by inserting a copy of each element before the original element. However, it suffers from two vulnerabilities: an infinite loop and an iterator invalidation issue. Let's discuss these vulnerabilities and propose patches for each:
+
+**Infinite Loop:**
+The function uses an iterator, 'i,' to traverse the vector and double each element. However, it fails to update the iterator 'i' after inserting the copy of the element. As a result, the iterator remains pointing to the original element, causing an infinite loop where the same element is repeatedly inserted before itself.
+Patch for the Infinite Loop vulnerability:
+To fix this issue, the iterator 'i' should be updated to point to the next position after inserting the copy of the element. This can be achieved by using the return value of the insert function, which provides an iterator pointing to the newly inserted element. Here's the modified code:
+
+````c++
+void ExpandVector(std::vector<int>& c) {
+  auto i = c.begin();
+  while (i != c.end()) {
+    i = c.insert(i, *i);
+    i += 2;
+  }
+}
+````
+
+By incrementing **i** by 2 after inserting the copy of the element, we ensure that the iterator moves to the correct position for the next iteration.
+
+**Iterator Invalidation:**
+The insert operation in the original code may invalidate the iterator 'i,' leading to undefined behavior. When an element is inserted before the current position, all existing iterators may become invalid. In our case, the iterator 'i' can be invalidated after each insert operation.
+Patch for the Iterator Invalidation vulnerability:
+To handle iterator invalidation, we can modify the code to use the result of the insert operation as the new iterator for the next iteration. This ensures that the iterator remains valid throughout the loop. Here's the modified code:
+
+````c++
+void ExpandVector(std::vector<int>& c) {
+  auto i = c.begin();
+  while (i != c.end()) {
+    i = c.insert(i, *i);
+    std::advance(i, 2);
+  }
+}
+````
+By using **std::advance(i, 2)** instead of **i += 2**, we guarantee that **i** moves to the correct position while handling any potential iterator invalidation caused by the insert operation.
+With these patches, the ExpandVector function should now correctly expand the vector by doubling each of its elements without suffering from an infinite loop or iterator invalidation issues.
+
+  
+</p>
+</details>
+
+### Exercise n.4
+### Exercise n.5
+### Exercise n.6
+### Exercise n.7
+### Exercise n.8
+### Exercise n.9
+### Exercise n.10
+### Exercise n.11
+### Exercise n.12
+### Exercise n.13
+### Exercise n.14
+### Exercise n.15
+### Exercise n.16
+### Exercise n.17
+### Exercise n.18
+### Exercise n.19
+### Exercise n.20
+### Exercise n.21
+### Exercise n.22
+### Exercise n.23
+### Exercise n.24
 
