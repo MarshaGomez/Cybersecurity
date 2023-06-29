@@ -25,6 +25,17 @@ Explain the RSA key generation algorithm, discussing the complexity of each step
 
 ### Exercise n.3
 
+Describe the meet-in-the-middle attack to 2DES and argue about its complexity.
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+
+### Exercise n.4
+
 <details><summary>Solution</summary>
 <p>
   
@@ -90,6 +101,9 @@ employing a rainbow table attack?
 </details>
 
 ### Exercise n.3
+
+A client C and server S share a password P. Furthermore, C knows the public key s of the server S. Client’s and server’s clocks are not synchronized. Design a protocol that makes it possible to establish a symmetric session key kcs between the client and the server. The protocol must avoid both the replay attack and the offline password guessing attack. Furthermore, it must satisfy the key authentication and key confirmation properties.
+
 <details><summary>Solution</summary>
 <p>
   
@@ -159,6 +173,19 @@ With these patches, the ExpandVector function should now correctly expand the ve
 
 ### Exercise n.2
 
+Find and explain the vulnerabilities of the following function. Then patch them.
+
+````c++
+void do_stuff(int aux) {
+  if (aux<0) {
+  /*Handle error*/}
+  unsigned char* buf = (char*) malloc(aux);
+  if (gets(buf) == NULL) {
+    /* Handle error */}
+    /* do other stuff */
+}
+````
+
 <details><summary>Solution</summary>
 <p>
   
@@ -167,6 +194,25 @@ With these patches, the ExpandVector function should now correctly expand the ve
 
 
 ### Exercise n.3
+
+Find and explain the vulnerabilities of function EditStudent, then patch them.
+
+````c++
+struct student{
+  int StudentID;
+  char FirstName[100];
+  char LastName[100];
+  int DegreeID;
+}
+void EditStudent(student* stu, int Sid, int Did, char* Fname, char* Lname) {
+  //The function replaces the value in the field of the structure pointed to by
+  // stu with the values Sid, Did, Fname, Lname
+  stu->StudentID = Sid;
+  strcpy(stu->FirstName, Fname);
+  strcpy(stu->LastName, Lname);
+  stu->DegreeID = Did;
+}
+````
 
 <details><summary>Solution</summary>
 <p>
