@@ -15,6 +15,8 @@ State and prove the Shannon’s Theorem.
 
 ### Exercise n.2
 
+Explain the RSA key generation algorithm, discussing the complexity of each step.
+
 <details><summary>Solution</summary>
 <p>
   
@@ -33,7 +35,7 @@ State and prove the Shannon’s Theorem.
 
 ### Exercise n.1
 
-The hash function H(·) suffers from collision attacks in 241, exploiting the inner structure function and simply appending properly crafted blocks to the message. Besides this, the size of H(·), 128 bits, limits its maximum collision resistance to 264.
+The hash function H(·) suffers from collision attacks in $2^{41}$, exploiting the inner structure function and simply appending properly crafted blocks to the message. Besides this, the size of H(·), 128 bits, limits its maximum collision resistance to $2^{64}$.
 
 Willing to strengthen the H(·), three proposals are made:
 * a) H-A(m) is defined as SHA2-256(H(m))
@@ -67,6 +69,19 @@ In summary, among the given proposals, (a) and (d) offer the most significant im
 </details>
 
 ### Exercise n.2
+
+Alice wishes to protect passwords from an attacker who manages to grab the password file and then perform an offline attack, possibly based on a rainbow table attack. For this reason, Alices decides to salt the hashing. Let p denote a plaintext password and s a 128-bit random salt. 
+
+Alice adopts the following salting scheme.**Scheme 1:** Compute $h = MD5^{1000}(p) ⊕ s$, and store the pair (h, s) in the password file.
+* A. Discuss the security of this scheme w.r.t. a rainbow table attack.
+
+Bob suggests Alice employ the following salting scheme:**Scheme 2:** Compute $h = MD5^{1000}(p || s)$, and store (h, s) in the password file.
+* B. Is this choice better or worse than Alice’s w.r.t. a rainbow table attack?
+
+Within Scheme 2, assume that users employ 8 characters chosen over the English lowercase alphanumeric characters.
+* C. How many bits long should be the salt to prevent an attacker able to compute $2^{70}$ passwords from
+employing a rainbow table attack?
+* D. Does the previous amount of random salt prevent an attacker from brute forcing a single password?
 
 <details><summary>Solution</summary>
 <p>
