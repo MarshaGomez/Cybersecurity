@@ -1,7 +1,8 @@
-# Cybersecurity
+# Cybersecurity. Exam Practice 
 Course Foundations of Cybersecurity with Professor Dini
 
-## Exam Practice 
+## Theory
+
 ### Exercise n.1
 
 State and prove the Shannon’s Theorem.
@@ -13,6 +14,24 @@ State and prove the Shannon’s Theorem.
 </details>
 
 ### Exercise n.2
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+### Exercise n.3
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+## Analysis
+
+### Exercise n.1
 
 The hash function H(·) suffers from collision attacks in 241, exploiting the inner structure function and simply appending properly crafted blocks to the message. Besides this, the size of H(·), 128 bits, limits its maximum collision resistance to 264.
 
@@ -47,7 +66,24 @@ In summary, among the given proposals, (a) and (d) offer the most significant im
 </p>
 </details>
 
+### Exercise n.2
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
 ### Exercise n.3
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+## Secure Coding
+
+### Exercise n.1
 
 Find and explain the vulnerabilities of the following function. Then patch them.
 ````c++
@@ -106,25 +142,20 @@ With these patches, the ExpandVector function should now correctly expand the ve
 </p>
 </details>
 
-### Exercise n.4
-### Exercise n.5
-### Exercise n.6
-### Exercise n.7
-### Exercise n.8
-### Exercise n.9
-### Exercise n.10
-### Exercise n.11
-### Exercise n.12
-### Exercise n.13
-### Exercise n.14
-### Exercise n.15
-### Exercise n.16
-### Exercise n.17
-### Exercise n.18
-### Exercise n.19
-### Exercise n.20
-### Exercise n.21
-### Exercise n.22
-### Exercise n.23
-### Exercise n.24
+### Exercise n.2
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+
+### Exercise n.3
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
 
