@@ -42,6 +42,19 @@ Describe the meet-in-the-middle attack to 2DES and argue about its complexity.
 </p>
 </details>
 
+### Exercise n.5
+
+1. Illustrate the authenticated encryption (AE) scheme *encrypt and authenticate*.
+2. Argue whether it can be considered secure.
+3. Illustrate the AE scheme “encrypt then authenticate”.
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+
 ## Analysis
 
 ### Exercise n.1
@@ -113,8 +126,38 @@ A client C and server S share a password P. Furthermore, C knows the public key 
 
 Let m be a 256-bit message and mi denote the i-th. Consider the following one-time digital signature scheme.
 * Key generation algorithm.
-  1. Generate two random sequences $S^0$ and $S^1$, both of 256 elements, defined as follows: $𝑆^𝑘 = {𝑆_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑆_{𝑖}^𝑘 ← random()|_{256} . Let S = {S^0, S^1}$ be the private key.
-  2. Generate two sequences $P^0$ and $P^1$, defined as follows $𝑃^𝑘 = {𝑃_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑃𝑖𝑘 ← 𝐻(𝑆_{𝑖}^𝑘), where H() is a 256-bit one-way hash function. Let P = {P^0, P^1}$ be the public key.
+  1. Generate two random sequences $S^0$ and $S^1$, both of 256 elements, defined as follows: $𝑆^𝑘 = {𝑆_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑆_{𝑖}^𝑘 ← random()|_{256}$. Let $S = {S^0, S^1}$ be the private key.
+  2. Generate two sequences $P^0$ and $P^1$, defined as follows $𝑃^𝑘 = {𝑃_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑃𝑖𝑘 ← 𝐻(𝑆_{𝑖}^𝑘)$, where H() is a 256-bit one-way hash function. Let $P = {P^0, P^1}$ be the public key.
+
+* Signature generation algorithm. The digital signature $D$ of $m$ is defined as follows:
+
+$$
+\forall 1 \leq  i \leq  256, D{i} = 
+\begin{Bmatrix}
+ S_{i}^0 & \text{if } m_{i} = 0 \\
+ S_{i}^1 & \text{if } m_{i} = 1 
+\end{Bmatrix}
+$$
+
+Answer the following questions.
+1. Determine the size in a bit of the digital signature.
+2. Specify the signature verification algorithm.
+3. Argue about the unforgeability of the signature scheme.
+4. Assume the secret key is used to digitally sign two different messages x and y. Let X and Y be their respective digital signatures. Describe a possible existential forgery attack that generates a valid pair (z, Z).
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+### Exercise n.5
+Assume a threat model in which an adversary can steal the password file and perform an off-line Rainbow Table attack.
+* Assume we adopt the following salted hashing technique: $h = H^{1000}(p) ⊕ s$ where $p$ is the plaintext password, $s$ is a 128-bit random salt, and $H$ is a secure one-way has function. The pair $(h, s)$ is stored in the password file on disk. Is this approach secure? Explain why.
+* Assume now we adopt the following salted hashing technique: $h = H(p||s)$ and again, we store the pair $(h, s)$ in the password file on disk. Is this choice better than the previous one? Explain why.
+* With reference to the second hashing scheme, if users employ 8 characters passwords chosen over the lowercase alphanumeric characters, how many bits long should be the salt to prevent an attacker able to (pre-)compute 270 passwords from employing a Rainbow Table attack?
+* Does the previous amount of random salt prevent an attacker from brute-forcing a single password?
+
 
 <details><summary>Solution</summary>
 <p>
@@ -231,11 +274,32 @@ void EditStudent(student* stu, int Sid, int Did, char* Fname, char* Lname) {
 
 ### Exercise n.4
 
+Find and explain the vulnerabilities of the following function. Then patch them.
+
+````c++
+void ExpandVector(std::vector<int>& c) {
+  //This code expands vector c by doubling each element.
+  //For example, vector [1,2,3] becomes [1,1,2,2,3,3].
+  for(auto i = c.begin(); i != c.end(); i++) {
+    c.insert(i, *i);
+  }
+}
+````
+
 <details><summary>Solution</summary>
 <p>
   
 </p>
 </details>
+  
+</p>
+</details>
+
+
+### Exercise n.5
+
+<details><summary>Solution</summary>
+<p>
   
 </p>
 </details>
