@@ -83,15 +83,14 @@ In summary, among the given proposals, (a) and (d) offer the most significant im
 
 Alice wishes to protect passwords from an attacker who manages to grab the password file and then perform an offline attack, possibly based on a rainbow table attack. For this reason, Alices decides to salt the hashing. Let p denote a plaintext password and s a 128-bit random salt. 
 
-Alice adopts the following salting scheme.**Scheme 1:** Compute $h = MD5^{1000}(p) ⊕ s$, and store the pair (h, s) in the password file.
+Alice adopts the following salting scheme: **Scheme 1:** Compute $h = MD5^{1000}(p) ⊕ s$, and store the pair (h, s) in the password file.
 * A. Discuss the security of this scheme w.r.t. a rainbow table attack.
 
-Bob suggests Alice employ the following salting scheme:**Scheme 2:** Compute $h = MD5^{1000}(p || s)$, and store (h, s) in the password file.
+Bob suggests Alice employ the following salting scheme: **Scheme 2:** Compute $h = MD5^{1000}(p || s)$, and store (h, s) in the password file.
 * B. Is this choice better or worse than Alice’s w.r.t. a rainbow table attack?
 
 Within Scheme 2, assume that users employ 8 characters chosen over the English lowercase alphanumeric characters.
-* C. How many bits long should be the salt to prevent an attacker able to compute $2^{70}$ passwords from
-employing a rainbow table attack?
+* C. How many bits long should be the salt to prevent an attacker able to compute $2^{70}$ passwords from employing a rainbow table attack?
 * D. Does the previous amount of random salt prevent an attacker from brute forcing a single password?
 
 <details><summary>Solution</summary>
@@ -102,7 +101,7 @@ employing a rainbow table attack?
 
 ### Exercise n.3
 
-A client C and server S share a password P. Furthermore, C knows the public key s of the server S. Client’s and server’s clocks are not synchronized. Design a protocol that makes it possible to establish a symmetric session key kcs between the client and the server. The protocol must avoid both the replay attack and the offline password guessing attack. Furthermore, it must satisfy the key authentication and key confirmation properties.
+A client C and server S share a password P. Furthermore, C knows the public key s of the server S. Client’s and server’s clocks are not synchronized. Design a protocol that makes it possible to establish a symmetric session key kcs between the client and the server. The protocol must avoid both the replay attack and the offline password-guessing attack. Furthermore, it must satisfy the key authentication and key confirmation properties.
 
 <details><summary>Solution</summary>
 <p>
@@ -114,8 +113,8 @@ A client C and server S share a password P. Furthermore, C knows the public key 
 
 Let m be a 256-bit message and mi denote the i-th. Consider the following one-time digital signature scheme.
 * Key generation algorithm.
-  1. Generate two random sequences S0 and S1, both of 256 elements, defined as follows: $𝑆^𝑘 = {𝑆_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑆_{𝑖}^𝑘 ← random()|_{256} . Let S = {S0, S1}$ be the
-private key.
+  1. Generate two random sequences $S^0$ and $S^1$, both of 256 elements, defined as follows: $𝑆^𝑘 = {𝑆_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑆_{𝑖}^𝑘 ← random()|_{256} . Let S = {S^0, S^1}$ be the private key.
+  2. Generate two sequences $P^0$ and $P^1$, defined as follows $𝑃^𝑘 = {𝑃_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑃𝑖𝑘 ← 𝐻(𝑆_{𝑖}^𝑘), where H() is a 256-bit one-way hash function. Let P = {P^0, P^1}$ be the public key.
 
 <details><summary>Solution</summary>
 <p>
