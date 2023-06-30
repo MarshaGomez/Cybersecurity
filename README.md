@@ -1,7 +1,13 @@
-# Cybersecurity. Exam Practice 
+# 🔐 Foundations of Cybersecurity
+
+The student will acquire knowledge about applied cryptography, secure coding, and web security. The objective of the course is to make a student able to properly design and implement a secure distributed application.
+
+More precisely, the student will get a detailed knowledge of the main cryptographic primitives (ciphers, hash functions, digital signatures), their properties in terms of security and performance, and their appropriate usage in designing and building protocols and systems. The student will also get basic notions about secure coding, and web security, and the related main attacks including buffer overflow and SQL injection.
+
+# 📝 Exam Practice 
 Course Foundations of Cybersecurity with Professor Dini
 
-## Theory
+## 📚 Theory
 
 ### Exercise n.1
 
@@ -92,7 +98,7 @@ Where $S_P(X)$ denotes the digital signature of principal $P$ on statement $X; \
 </p>
 </details>
 
-## Analysis
+## 📊 Analysis
 
 ### Exercise n.1
 
@@ -211,7 +217,7 @@ with $i \neq j$, are the same.
 2. Does replacing DES with 3DES avoid information leakage?
 3. How can we mitigate this attack?
 
-## Secure Coding
+## 💻 Secure Coding
 
 ### Exercise n.1
 
