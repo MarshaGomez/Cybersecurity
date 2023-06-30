@@ -74,6 +74,23 @@ With reference to one-time pad (OTP), answer the following questions.
 </p>
 </details>
 
+### Exercise n.6
+
+1. Illustrate and discuss the minimum set of information items you expect to find in a certificate.
+2. Explain the difference between an invalid and a revoked certificate.
+3. For each of the following certificate templates, indicate whether it is secure or not. Motivate your answers.
+  1. $\left \langle A, \Pi_A, L_A  \right \rangle _A$
+  2. $\left \langle A, \Pi_A, L_A  \right \rangle _CA$
+  3. $\left \langle A, \Pi_A, L_A  \right \rangle _B , \left \langle B, \Pi_B, L_B  \right \rangle _B$
+  4. $\left \langle A, \Pi_A, L_A  \right \rangle _B , \left \langle B, \Pi_B, L_B , ca=yes \right \rangle _{CA}$
+
+Where $S_P(X)$ denotes the digital signature of principal $P$ on statement $X; \left \langle X  \right \rangle _P$ denotes ${X, S_P(X)}; \Pi_P$ denotes principal $P$’s public key, $L_P$ denotes the validity interval of $\Pi_P$ and finally, $CA$ denotes a trusted certification authority.
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
 
 ## Analysis
 
@@ -184,6 +201,15 @@ Assume a threat model in which an adversary can steal the password file and perf
   
 </p>
 </details>
+
+### Exercise n.6
+
+Let us consider the DES cipher in the CBC mode of operation. Assuming we encrypt a very large amount of data with the same key, it is possible that two different ciphertext blocks, say $c_i$ and $c_j$,
+with $i \neq j$, are the same.
+
+1. Does the fact that $c_i = c_j$ leak any information regarding the plaintext blocks $m_i$ and $m_j$?
+2. Does replacing DES with 3DES avoid information leakage?
+3. How can we mitigate this attack?
 
 ## Secure Coding
 
@@ -325,4 +351,31 @@ A client of yours ask you to perform a black-box penetration test to the login p
   
 </p>
 </details>
+
+### Exercise n.5
+
+Find, explain, and patch the vulnerabilities. If any, of the following function. The function expects a user to open a file in the /home/Alice/ path, from where it is executed.
+
+````c++
+void do_stuff(const char* file) {
+  if (strlen(file) > 0 && file[0] == '/'){
+      /* Absolute path! Handle error */
+  }
+  FILE *f = fopen(file, "r");
+  if (!f) {
+    /* File doesn’t exists, handle error */ }
+  else {
+    /* read file*/
+  }
+  fclose(f);
+}
+````
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+fclose(f);
+}
 
