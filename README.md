@@ -55,6 +55,26 @@ Describe the meet-in-the-middle attack to 2DES and argue about its complexity.
 </details>
 
 
+### Exercise n.6
+
+
+With reference to one-time pad (OTP), answer the following questions.
+
+1. Illustrate the key generation, encryption, and decryption algorithm.
+2. Given $k_{0} = 0^n$, then $c = p ⊕ k_{0} = p^1$. Argue whether removing k0 from the key set is a good idea or not.
+3. Let c = "HELLO". Specify which of the following strings could constitute possible corresponding plaintexts and which cannot be.
+    1. "HELLO"
+    2. "LIGHT"
+    3. "BLUE"
+    4. "YELLOW"
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+
 ## Analysis
 
 ### Exercise n.1
@@ -297,6 +317,8 @@ void ExpandVector(std::vector<int>& c) {
 
 
 ### Exercise n.5
+
+A client of yours ask you to perform a black-box penetration test to the login page of his e-commerce website. Such a page displays a form with two fields, a *Username* field, and a *Password* field. The client provides you the following credentials: *Engineer* as username and *Computer* as password. You make an attempt to login by specifying *Engineer’ -- * as username, and a password of your invention. The login fails. Is this test sufficient to conclude that the website is safe against SQL injection attack?
 
 <details><summary>Solution</summary>
 <p>
