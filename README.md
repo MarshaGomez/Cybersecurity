@@ -110,6 +110,19 @@ A client C and server S share a password P. Furthermore, C knows the public key 
 </p>
 </details>
 
+### Exercise n.4
+
+Let m be a 256-bit message and mi denote the i-th. Consider the following one-time digital signature scheme.
+* Key generation algorithm.
+  1. Generate two random sequences S0 and S1, both of 256 elements, defined as follows: $𝑆^𝑘 = {𝑆_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑆_{𝑖}^𝑘 ← random()|_{256} . Let S = {S0, S1}$ be the
+private key.
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
 ## Secure Coding
 
 ### Exercise n.1
@@ -216,6 +229,14 @@ void EditStudent(student* stu, int Sid, int Did, char* Fname, char* Lname) {
 
 <details><summary>Solution</summary>
 <p>
+
+### Exercise n.4
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
   
 </p>
 </details>
