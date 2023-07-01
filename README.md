@@ -2,7 +2,7 @@
 
 The student will acquire knowledge about applied cryptography, secure coding, and web security. The objective of the course is to make a student able to properly design and implement a secure distributed application.
 
-More precisely, the student will get a detailed knowledge of the main cryptographic primitives (ciphers, hash functions, digital signatures), their properties in terms of security and performance, and their appropriate usage in designing and building protocols and systems. The student will also get basic notions about secure coding, and web security, and the related main attacks including buffer overflow and SQL injection.
+More precisely, the student will get a detailed knowledge of the main cryptographic primitives (ciphers, hash functions, digital signatures), their properties in terms of security and performance, and their appropriate usage in designing and building protocols and systems. The student will also get basic notions about secure coding, web security, and the related main attacks including buffer overflow and SQL injection.
 
 # 📝 Exam Practice 
 Course Foundations of Cybersecurity with Professor Dini
@@ -35,7 +35,18 @@ Explain the RSA key generation algorithm, discussing the complexity of each step
 
 <details><summary>Solution</summary>
 <p>
+The key generation algorithm. The RSA key generation algorithm is:
   
+1. Choose two large distinct primes $p,q$
+2. Compute the modulus $n = p \times q$
+3. Compute the Euler's Phi function $\phi(n) = (p-1) \times (q-1). \phi(n)$ returns the number of integers in $\mathbb{Z}_n$ coprime with n.
+4. Randomly select the public (encryption) exponent $e: 1<e<\phi(n)$, s.t $gcd(e,\phi(n))=1$ (e is coprime with $\phi(n)$).
+5. Compute the unique private (decryption) exponent $d: 1<d<\phi$, s.t $e \cdot d \equiv 1 mod(\phi)$. This equivalence contains one unknown (d). We can compute d from the equation $e \cdot d \equiv 1 + t\phi$. For a certain value of t (it denotes a multiple of $\phi$, we are not interested in a particular value). We are able to solve this equation because e is coprime with $\phi(n)$ and the solution is $d=e^{-1}mod(\phi)$.
+6. Private key = (d,n)
+7. Public Key = (e,n)
+
+Primes p and q are $100 \div 200$ decimal digits, nowadays are around 1024 bit. Condition $gcd(e,\phi(n))=1$ guarantees that d exists and is unique. At the end of key generation, p and q must be deleted. If an adversary finds them it is able to compute d, e, and n. Two parts of the algorithm are not trivial; step 1, because is very demanding (large prime numbers), steps 4-5 (Step 5 are crucial for RSA correctness). 
+
 </p>
 </details>
 
