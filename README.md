@@ -40,10 +40,10 @@ The key generation algorithm. The RSA key generation algorithm is:
 1. Choose two large distinct primes $p,q$
 2. Compute the modulus $n = p \times q$
 3. Compute the Euler's Phi function $\phi(n) = (p-1) \times (q-1). \phi(n)$ returns the number of integers in $\mathbb{Z}_n$ coprime with n.
-4. Randomly select the public (encryption) exponent $e: 1<e<\phi(n)$, s.t $gcd(e,\phi(n))=1$ (e is coprime with $\phi(n)$).
-5. Compute the unique private (decryption) exponent $d: 1<d<\phi$, s.t $e \cdot d \equiv 1 mod(\phi)$. This equivalence contains one unknown (d). We can compute d from the equation $e \cdot d \equiv 1 + t\phi$. For a certain value of t (it denotes a multiple of $\phi$, we are not interested in a particular value). We are able to solve this equation because e is coprime with $\phi(n)$ and the solution is $d=e^{-1}mod(\phi)$.
-6. Private key = (d,n)
-7. Public Key = (e,n)
+4. Randomly select the public (encryption) exponent $e: 1 < e < \phi (n)$ , s.t $gcd(e, \phi(n) ) = 1$ (e is coprime with $\phi (n)$ ).
+5. Compute the unique private (decryption) exponent $d: 1 < d < \phi$, s.t $e \cdot d \equiv 1 mod( \phi )$. This equivalence contains one unknown (d). We can compute d from the equation $e \cdot d \equiv 1 + t \phi $. For a certain value of t (it denotes a multiple of $\phi$, we are not interested in a particular value). We are able to solve this equation because e is coprime with $\phi (n)$ and the solution is $d = e^{-1} mod( \phi )$.
+7. Private $key = (d,n)$
+8. Public $key = (e,n)$
 
 Primes p and q are $100 \div 200$ decimal digits, nowadays are around 1024 bit. Condition $gcd(e,\phi(n))=1$ guarantees that d exists and is unique. At the end of key generation, p and q must be deleted. If an adversary finds them it is able to compute d, e, and n. Two parts of the algorithm are not trivial; step 1, because is very demanding (large prime numbers), steps 4-5 (Step 5 are crucial for RSA correctness). 
 
