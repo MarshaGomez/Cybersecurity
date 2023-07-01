@@ -217,6 +217,28 @@ with $i \neq j$, are the same.
 2. Does replacing DES with 3DES avoid information leakage?
 3. How can we mitigate this attack?
 
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+### Exercise n.7
+
+Assume that a file (possibly the whole volume) is stored in its encrypted form under AES-128-CBC. The file can be randomly accessed on a per-block basis.
+
+1. Show that it is possible to apply a controlled modification to a given location of the plaintext file while operating on the encrypted version (malleability attack).
+2. Argue the price the adversary must pay for this attack.
+3. Assume that we insert a parity bit in each file block. Is this control able to mitigate or prevent the malleability attack?
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+
 ## 💻 Secure Coding
 
 ### Exercise n.1
@@ -358,7 +380,7 @@ A client of yours ask you to perform a black-box penetration test to the login p
 </p>
 </details>
 
-### Exercise n.5
+### Exercise n.6
 
 Find, explain, and patch the vulnerabilities. If any, of the following function. The function expects a user to open a file in the /home/Alice/ path, from where it is executed.
 
@@ -382,6 +404,20 @@ void do_stuff(const char* file) {
   
 </p>
 </details>
-fclose(f);
+
+### Exercise n.7 
+
+Find, explain and patch vulnerabilities, if any, of the following function:
+
+````c++
+unsigned int do_stuff(unsigned int a, unsigned int b){
+  if(a+b>UINT_MAX)
+    return 0;
+  return a+b;
 }
+````
+### Exercise n.8 
+
+
+
 
