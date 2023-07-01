@@ -54,19 +54,23 @@ Primes p and q are $100 \div 200$ decimal digits, nowadays are around 1024 bit. 
 
 Describe the meet-in-the-middle attack on 2DES and argue about its complexity.
 
-<details><summary>Solution</summary>
-<p>
-  
-Two times encryption 2DES. We encrypt the plaintext twice, considering the case in which the algorithm is used twice: $y = 2E((e_L,e_R), x) = E(e_R, E(e_L,x))$, where x is a plaintext y is the ciphertext and $(e_L,e_R)$ are the left and the right key respectively. The key size is 2k bits (double), so a brute force attack requires $2^{2k}$ steps. 2E has performance penalties. It is two times slower than DES because it encrypts the message twice. It seems that we have significant security improvement, but this is not true. In fact, the meet-in-the-middle attack is possible.
-
-</p>
-</details>
-
-
 ```mermaid
 flowchart LR
  x  --> B["E(eL,.)"] -- Meet-in-the-middle --> C["E(eR,.)"] --> y
 ```
+
+<details><summary>Solution</summary>
+<p>
+  
+Two times encryption 2DES. We encrypt the plaintext twice, considering the case in which the algorithm is used twice: $y = 2E((e_L,e_R), x) = E(e_R, E(e_L,x))$, where x is a plaintext y is the ciphertext and $(e_L,e_R)$ are the left and the right key respectively. The key size is 2k bits (double), so a brute force attack requires $2^{2k}$ steps. 2E has performance penalties. It is two times slower than DES because it encrypts the message twice. It seems that we have significant security improvement, but this is not true. In fact, a meet-in-the-middle attack is possible.
+
+A meet-in-the-middle attack is a known-plaintext attack, the adversary must know at least one plaintext/ciphertext pair. The attack is perform as follows:
+- Build a table T containing $z=E(e_L, x)$ for all possible left-keys. Keep T sorted according to z.
+- Check whether $z'=D(eR, y)$ is contained in the table T, for all possible right-keys. If z' is contained in T then $(e_L, e_R)$ maps x into y with $e_L$, s.t $T[e_L] = z'$ (Meet-in-the-middle)
+
+</p>
+</details>
+
 
 ### Exercise n.4
 
