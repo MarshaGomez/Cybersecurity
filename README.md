@@ -57,9 +57,16 @@ Describe the meet-in-the-middle attack on 2DES and argue about its complexity.
 <details><summary>Solution</summary>
 <p>
   
+Two times encryption 2DES. We encrypt the plaintext twice, considering the case in which the algorithm is used twice: $y = 2E((e_L,e_R), x) = E(e_R, E(e_L,x))$, where x is a plaintext y is the ciphertext and $(e_L,e_R)$ are the left and the right key respectively. The key size is 2k bits (double), so a brute force attack requires $2^{2k}$ steps. 2E has performance penalties. It is two times slower than DES because it encrypts the message twice. It seems that we have significant security improvement, but this is not true. In fact, the meet-in-the-middle attack is possible.
+
 </p>
 </details>
 
+
+```mermaid
+flowchart LR
+ x  --> B["E(eL,.)"] -- Meet-in-the-middle --> C["E(eR,.)"] --> y
+```
 
 ### Exercise n.4
 
