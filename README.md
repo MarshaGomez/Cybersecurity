@@ -80,7 +80,7 @@ With reference to one-time pad (OTP), answer the following questions.
 </p>
 </details>
 
-### Exercise n.6
+### Exercise n.7
 
 1. Illustrate and discuss the minimum set of information items you expect to find in a certificate.
 2. Explain the difference between an invalid and a revoked certificate.
