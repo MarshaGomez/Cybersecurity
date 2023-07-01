@@ -11,12 +11,22 @@ Course Foundations of Cybersecurity with Professor Dini
 
 ### Exercise n.1
 
-State and prove the Shannon’s Theorem.
+State and prove Shannon’s Theorem.
 
 <details><summary>Solution</summary>
 <p>
-  
-</p>
+
+In a perfect cipher $\left | K \right | \geq \left | P \right |$; it means the number of keys cannot be smaller than the number of messages.
+
+*Proof*. To prove it by contradiction try and assume that the statement is false, proceed from there, and at some point, you will arrive at a contradiction:
+- Let's assume $\left | K \right | < \left | P \right |$
+- For the invertibility, it is reasonable to have $\left | C \right | \geq \left | P \right |$; because if $\left | C \right | < \left | P \right |$ there are at least two plaintexts for a ciphertext, so we cannot derive the plaintext for a given ciphertext (not invertible).
+- From the previous relations we have $\left | C \right | > \left | K \right |$. If we encrypt a plaintext $p_0 \epsilon P$ with all possible keys $k_i$, there is at least a ciphertext $c_0 \epsilon C$ that is not the preimage of $p_0$.
+- Then, we have $P(P=p_0) \neq 0$ and $P(P = p_o | C = c_0) = 0$. We found a case in which the definition of Shannon is not verified, so we found a contradiction.
+
+Perfect Secrecy means unconditional security, because we assume that an adversary has infinite computing resources and observation of the ciphertext provides the adversary with any information. A necessary condition for perfect secrecy is that the key bits are truly randomly chosen (we might be able to decrypt if is not perfectly random) and the key length is at least as long as the message length.
+
+</p> 
 </details>
 
 ### Exercise n.2
@@ -31,7 +41,7 @@ Explain the RSA key generation algorithm, discussing the complexity of each step
 
 ### Exercise n.3
 
-Describe the meet-in-the-middle attack to 2DES and argue about its complexity.
+Describe the meet-in-the-middle attack on 2DES and argue about its complexity.
 
 <details><summary>Solution</summary>
 <p>
@@ -91,6 +101,32 @@ With reference to one-time pad (OTP), answer the following questions.
   4. $\left \langle A, \Pi_A, L_A  \right \rangle _B , \left \langle B, \Pi_B, L_B , ca=yes \right \rangle _{CA}$
 
 Where $S_P(X)$ denotes the digital signature of principal $P$ on statement $X; \left \langle X  \right \rangle _P$ denotes ${X, S_P(X)}; \Pi_P$ denotes principal $P$’s public key, $L_P$ denotes the validity interval of $\Pi_P$ and finally, $CA$ denotes a trusted certification authority.
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+### Exercise n.8
+
+With reference to the Diffie-Hellmann key establishment protocol
+1. Describe the protocol;
+2. Argue about the security of the protocol w.r.t. to a passive adversary;
+3. Argue about the security of the protocol w.r.t. to an active adversary;
+4. Discuss a possible solution to the MIM attack
+
+
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
+
+### Exercise n.9 
+
+1) Describe the key generation algorithm of the RSA encryption scheme.
+2) Discuss the complexity of each algorithm step.
 
 <details><summary>Solution</summary>
 <p>
@@ -238,6 +274,11 @@ Assume that a file (possibly the whole volume) is stored in its encrypted form u
 </p>
 </details>
 
+### Exercise n.8 
+
+Alice and Bob use the Diffie-Hellman protocol to establish a session key. Let $Y_A$ and $Y_B$ be their respective public parameters. In order to prevent a man-in-the-middle attack, Alice and Bob maintain a trusting relationship with a trusted third party named Trent, who acts as a certification authority. These trust relationships are realized through the keys $K_a$ and $K_b$, which Alice and Bob, respectively, share with the authority in advance.
+
+Assuming that the clocks of Alice, Bob, and Trent are not synchronized, design a protocol for the certification of the public parameters that allows achieving the following beliefs: $A \mid \equiv  \mapsto B$ and $B \mid \equiv  \mapsto A$
 
 ## 💻 Secure Coding
 
@@ -418,6 +459,11 @@ unsigned int do_stuff(unsigned int a, unsigned int b){
 ````
 ### Exercise n.8 
 
+<details><summary>Solution</summary>
+<p>
+  
+</p>
+</details>
 
 
 
