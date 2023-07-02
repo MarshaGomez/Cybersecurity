@@ -130,7 +130,7 @@ The certificate from the server is always requested except for anonymous Diffie-
 With reference to one-time pad (OTP), answer the following questions.
 
 1. Illustrate the key generation, encryption, and decryption algorithm.
-2. Given $k_{0} = 0^n$, then $c = p \oplus k_{0} = p^1$. Argue whether removing k0 from the key set is a good idea or not.
+2. Given $k_{0} = 0^n$, then $c = p \oplus k_{0} = p^1$. Argue whether removing $k^0$ from the key set is a good idea or not.
 3. Let c = "HELLO". Specify which of the following strings could constitute possible corresponding plaintexts and which cannot be.
     1. "HELLO"
     2. "LIGHT"
@@ -141,12 +141,12 @@ With reference to one-time pad (OTP), answer the following questions.
 <p>
 One Time Pad:
   
-1. The basic idea is to replace the random keystream by a pseudo-random keystream, it is not truly a random keystream but it is the result of an algorithm. The pseudo-random generator G is an efficient and deterministic function from the seed space to the keystream space:  
-   - Key generation: $G \left \{ 0,1 \right \} ^s \rightarrow \left \{ 0,1 \right \}^n$ $n>>s$
+1. The basic idea is to replace the random keystream with a pseudo-random keystream, it is not truly a random keystream but it is the result of an algorithm. The pseudo-random generator G is an efficient and deterministic function from the seed space to the keystream space:  
+   - Key generation: $G$ { $0,1$ } $^s$ $\rightarrow$ { $0,1$ } $^n$ $n>>s$
    - Encryption: $y = G(k) \oplus x$
    - Decryption: $x = G(k) \oplus y$
-2. 
-3. 
+2. Is not a good idea, because removing $k^0$ the resulting cipher is not perfect anymore. The number of keys gets smaller than the number of messages so violating the necessary condition of Shannon's Theorem. 
+3. Strings "Hello" and "Light" are possible plaintext with the same probability. Strings "Blue" and "Yellow" cannot be possible plaintext because they are, respectively, shorter and longer than any possible plaintext. 
   
 </p>
 </details>
@@ -157,7 +157,7 @@ One Time Pad:
 2. Explain the difference between an invalid and a revoked certificate.
 3. For each of the following certificate templates, indicate whether it is secure or not. Motivate your answers.
   1. $\left \langle A, \Pi_A, L_A  \right \rangle _A$
-  2. $\left \langle A, \Pi_A, L_A  \right \rangle _CA$
+  2. $\left \langle A, \Pi_A, L_A  \right \rangle _{CA}$
   3. $\left \langle A, \Pi_A, L_A  \right \rangle _B , \left \langle B, \Pi_B, L_B  \right \rangle _B$
   4. $\left \langle A, \Pi_A, L_A  \right \rangle _B , \left \langle B, \Pi_B, L_B , ca=yes \right \rangle _{CA}$
 
@@ -165,7 +165,34 @@ Where $S_P(X)$ denotes the digital signature of principal $P$ on statement $X; \
 
 <details><summary>Solution</summary>
 <p>
-  
+
+1. The Diffie-Hellman Key Exchange protocol suffers from the meet-in-the-middle attack because the message for exchanging the keys is not authenticated (no link between the sender and the key). The solution is using certificates. 
+The minimum information items are:
+$Cert_A = A, pubK_A , L_A , S_{CA} (A||pubK_a ||L_A )$ 
+
+*A* is the identifier (identifier can be anything, for example, an IP address), $pubK_A$ is the public key, $L_A$ is the validity interval of the certificates (a certificate is valid for a limited amount of time), and || is the concatenation operator. The certificate is digitally signed by a Certification Authority (CA). The Certification Authority (CA) is a trusted third party (TTP) that attests to the authenticity of a public key. CA’s signature indissolubly links the identifier and public key (and other parameters).
+Now, the man-in-the-middle attack should forge the certification authority’s digital signature to put its key (substitute $pubK$, and sign again the message with the digital signature of the CA). If the digital signature is secure, the problem is hard (certificates prevent the man-in-the-middle attack. 
+
+2. A certificate is expired if the validity period is terminated. A certificate must be revoked if the private key gets compromised before certificate expiration, or even if a company employee has changed role or been fired. Thus, it must not sign on behalf of the company anymore.
+   - A certificate revocation must be: **Correct and Timely**
+        - Correct: Revocation can be granted only to authorized parties, for example, the owner or the issuer.
+        - Timely: Revocation must be disseminated to all interested parties. (The ones who use the certificate) as soon as possible. Nevertheless, we may not know who has the public key (It is public); moreover; the public key users may not be online. Hence, revocation is difficult.
+    
+3. Let's analyze each certificate template and determine whether it is secure or not:
+
+$\left \langle A, \Pi_A, L_A \right \rangle_A$
+This certificate template represents a certificate issued by principal A, where $\Pi_A$ is A's public key, and $L_A$ is the validity interval of A's public key. However, the certificate is self-signed, denoted by the subscript A. Self-signed certificates are generally not considered secure because they lack a trusted third party to verify the authenticity of the public key. Therefore, this certificate template is not secure.
+
+$\left \langle A, \Pi_A, L_A \right \rangle_{CA}$
+In this case, the certificate is issued by a trusted certification authority (CA), denoted by the subscript CA. The CA is responsible for verifying and signing the certificate, providing a level of trust. As long as the CA is trusted and properly operates, this certificate template can be considered secure. The CA's signature on the certificate ensures the authenticity and integrity of A's public key. Therefore, this certificate template is secure.
+
+$\left \langle A, \Pi_A, L_A \right \rangle_B , \left \langle B, \Pi_B, L_B \right \rangle_B$
+This template represents two certificates, one issued by principal B to principal A, and the other issued by principal B to itself. The subscript B indicates that principal B is the issuer of both certificates. This scenario represents a scenario where principal B acts as a certification authority. If principal B is a trusted and reliable certification authority, and it can be ensured that B's certificate to itself is secure, then this certificate template can be considered secure. However, without additional information about B's authority and its trustworthiness, we cannot definitively determine the security of this template.
+
+$\left \langle A, \Pi_A, L_A \right \rangle_B , \left \langle B, \Pi_B, L_B, \text{ca=yes} \right \rangle_{CA}$
+This certificate template represents two certificates: one issued by principal B to principal A, and the other issued by a trusted certification authority (CA) to principal B. The subscript B indicates that principal B is the issuer of A's certificate, while the subscript CA indicates that the trusted CA is the issuer of B's certificate. Since the certificate for principal B is issued by a trusted CA, it adds an additional layer of trust and assurance. As long as the CA is trusted and properly operates, and assuming the CA's certificate to B is secure, this certificate template can be considered secure.
+
+It's important to note that the security of a certificate also depends on the security of the underlying cryptographic algorithms and protocols used for generating and verifying the certificates. The analysis provided above focuses on the structure and trust relationships depicted in the certificate templates themselves.
 </p>
 </details>
 
