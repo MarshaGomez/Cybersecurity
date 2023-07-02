@@ -69,7 +69,7 @@ A meet-in-the-middle attack is a known-plaintext attack, the adversary must know
 - Check whether $z'=D(eR, y)$ is contained in the table T, for all possible right-keys. If z' is contained in T then $(e_L, e_R)$ maps x into y with $e_L$, s.t $T[e_L] = z'$ (Meet-in-the-middle)
 
 Attack complexity:
-* **Data Complexity**: Negligible. It needs at least a pair of data. There might be false positives. For simplicity, we assume the probability of false positives negligible. anyway, to get rid of them we may need two or more plaintext/ciphertext pairs.
+* **Data Complexity**: Negligible. It needs at least a pair of data. There might be false positives. For simplicity, we assume the probability of false positives is negligible. anyway, to get rid of them we may need two or more plaintext/ciphertext pairs.
 * **Storage Complexity**: Storage necessary for $T \approx O(2^k)$. The table has many entries as the number of keys, it grows exponentially with the size of the key.
 * **Time Complexity**: Time complexity for 1 + time complexity for step 2 = time for building and sorting the table + time for searching in a sorted table = $k2^k + k2^2 \approx O(2^k)$
 
@@ -95,19 +95,19 @@ SSL guarantee security at the transport layer (this is important for e-commerce)
 
 **Server Authentication:** It is still a simplified version of the protocol in which only the server authenticates (asymmetric authentication). It is a widespread use case, typically, clients are authenticated at the application level. The server is authenticated, and a secure channel is established using this protocol; thus, the client may authenticate with a password.
 The server hello done message is needed because SSL also allows performing client authentication. This message reports that round two is over. In round 3, the server requests and verifies the client certificate. If the client and the server choose another public key algorithm, for instance, Diffie-Hellman, the server sends a server key exchange message to send the public parameters.
-The client and the server tell each other what they can do through the hello messages (example, SSL version, cipher suite, compression method). The cipher suite is a list of algorithm tuples that are typically sorted in order of preferences. A tuple specifies:
+The client and the server tell each other what they can do through the hello messages (for example, SSL version, cipher suite, compression method). The cipher suite is a list of algorithm tuples that are typically sorted in order of preference. A tuple specifies:
 - The key establishment
 - Cipher, Cipher type, IV size, isExportable
 - MAC, hash size
 - Key material
 
-Some tuples are standard, example, SSL_RSA_WITH_3DES_EDE_CBC_SHA. Support key establishment scheme are:
-- RSA (certified to avoid meet-in-the-middle). The server sends the sertificate.
-- Fixed Diffie-Hellman (certified: fixed public parameters p and g). The server's public parameters (p,g,Y) are certified by a Certification Authority (CA). The client's certificate is required if client  authentication is required.
+Some tuples are standard, example, SSL_RSA_WITH_3DES_EDE_CBC_SHA. Support key establishment schemes are:
+- RSA (certified to avoid meet-in-the-middle). The server sends the certificate.
+- Fixed Diffie-Hellman (certified: fixed public parameters p and g). The server's public parameters (p,g, Y) are certified by a Certification Authority (CA). The client's certificate is required if client  authentication is required.
 - Ephemeral Diffie-Hellman (signed, dynamic public parameters). This protocol guarantees Perfect Forward Security. DH public keys are digitally signed (RSA or DSS). Signing keys are certified.
-- Anonymous Diffie-Hellman (non authenticated). DH without authentication. It is vulnerable to meet-in-the-middle attack.
+- Anonymous Diffie-Hellman (non authenticated). DH without authentication. It is vulnerable to a meet-in-the-middle attack.
 
-The certificate from the server is always requested except for anonymous Diffie-Hellman. For each alternative, the content of messages may change; some message may be empty. The server_key_exchange message is not requested in fived Diffie-Hellman and RSA. The format of the message depend on the chosen key exchange algorithm. The server_key_exchange is requested in anonymous Diffie-Hellman, ephemeral Diffie-Hellman, and RSA. Similarly, the format of the client_key_exchange message depends on the chosen key establishment. 
+The certificate from the server is always requested except for anonymous Diffie-Hellman. For each alternative, the content of messages may change; some message may be empty. The server_key_exchange message is not requested in fived Diffie-Hellman and RSA. The format of the message depends on the chosen key exchange algorithm. The server_key_exchange is requested in anonymous Diffie-Hellman, ephemeral Diffie-Hellman, and RSA. Similarly, the format of the client_key_exchange message depends on the chosen key establishment. 
   
 </p>
 </details>
@@ -127,11 +127,10 @@ The certificate from the server is always requested except for anonymous Diffie-
 
 ### Exercise n.6
 
-
 With reference to one-time pad (OTP), answer the following questions.
 
 1. Illustrate the key generation, encryption, and decryption algorithm.
-2. Given $k_{0} = 0^n$, then $c = p ⊕ k_{0} = p^1$. Argue whether removing k0 from the key set is a good idea or not.
+2. Given $k_{0} = 0^n$, then $c = p \oplus k_{0} = p^1$. Argue whether removing k0 from the key set is a good idea or not.
 3. Let c = "HELLO". Specify which of the following strings could constitute possible corresponding plaintexts and which cannot be.
     1. "HELLO"
     2. "LIGHT"
@@ -140,6 +139,14 @@ With reference to one-time pad (OTP), answer the following questions.
 
 <details><summary>Solution</summary>
 <p>
+One Time Pad:
+  
+1. The basic idea is to replace the random keystream by a pseudo-random keystream, it is not truly a random keystream but it is the result of an algorithm. The pseudo-random generator G is an efficient and deterministic function from the seed space to the keystream space:  
+   - Key generation: $G \left \{ 0,1 \right \} ^s \rightarrow \left \{ 0,1 \right \}^n$ $n>>s$
+   - Encryption: $y = G(k) \oplus x$
+   - Decryption: $x = G(k) \oplus y$
+2. 
+3. 
   
 </p>
 </details>
@@ -229,7 +236,7 @@ In summary, among the given proposals, (a) and (d) offer the most significant im
 
 Alice wishes to protect passwords from an attacker who manages to grab the password file and then perform an offline attack, possibly based on a rainbow table attack. For this reason, Alices decides to salt the hashing. Let p denote a plaintext password and s a 128-bit random salt. 
 
-Alice adopts the following salting scheme: **Scheme 1:** Compute $h = MD5^{1000}(p) ⊕ s$, and store the pair (h, s) in the password file.
+Alice adopts the following salting scheme: **Scheme 1:** Compute $h = MD5^{1000}(p) \oplus s$, and store the pair (h, s) in the password file.
 * A. Discuss the security of this scheme w.r.t. a rainbow table attack.
 
 Bob suggests Alice employ the following salting scheme: **Scheme 2:** Compute $h = MD5^{1000}(p || s)$, and store (h, s) in the password file.
@@ -286,7 +293,7 @@ Answer the following questions.
 
 ### Exercise n.5
 Assume a threat model in which an adversary can steal the password file and perform an off-line Rainbow Table attack.
-* Assume we adopt the following salted hashing technique: $h = H^{1000}(p) ⊕ s$ where $p$ is the plaintext password, $s$ is a 128-bit random salt, and $H$ is a secure one-way has function. The pair $(h, s)$ is stored in the password file on disk. Is this approach secure? Explain why.
+* Assume we adopt the following salted hashing technique: $h = H^{1000}(p) \oplus s$ where $p$ is the plaintext password, $s$ is a 128-bit random salt, and $H$ is a secure one-way has function. The pair $(h, s)$ is stored in the password file on disk. Is this approach secure? Explain why.
 * Assume now we adopt the following salted hashing technique: $h = H(p||s)$ and again, we store the pair $(h, s)$ in the password file on disk. Is this choice better than the previous one? Explain why.
 * With reference to the second hashing scheme, if users employ 8 characters passwords chosen over the lowercase alphanumeric characters, how many bits long should be the salt to prevent an attacker able to (pre-)compute 270 passwords from employing a Rainbow Table attack?
 * Does the previous amount of random salt prevent an attacker from brute-forcing a single password?
@@ -486,7 +493,7 @@ void do_stuff(const char* file) {
   }
   FILE *f = fopen(file, "r");
   if (!f) {
-    /* File doesn’t exists, handle error */ }
+    /* File doesn’t exist, handle error */ }
   else {
     /* read file*/
   }
@@ -502,7 +509,7 @@ void do_stuff(const char* file) {
 
 ### Exercise n.7 
 
-Find, explain and patch vulnerabilities, if any, of the following function:
+Find, explain, and patch vulnerabilities, if any, of the following functions:
 
 ````c++
 unsigned int do_stuff(unsigned int a, unsigned int b){
