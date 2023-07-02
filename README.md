@@ -81,8 +81,33 @@ Double encryption is not more secure than single encryption. The time complexity
 
 ### Exercise n.4
 
+With reference to SSL, describe the Handshake protocol in the case of server authentication.
+
 <details><summary>Solution</summary>
 <p>
+
+SSL guarantee security at the transport layer (this is important for e-commerce). It is largely used today, for example in https, emails, and some application layer. SSL is a protocol suite composed of 4 protocols:
+
+- Handleshake protocol (the most important one)
+- Change cipher protocol
+- Alert protocol
+- Record protocol
+
+**Server Authentication:** It is still a simplified version of the protocol in which only the server authenticates (asymmetric authentication). It is a widespread use case, typically, clients are authenticated at the application level. The server is authenticated, and a secure channel is established using this protocol; thus, the client may authenticate with a password.
+The server hello done message is needed because SSL also allows performing client authentication. This message reports that round two is over. In round 3, the server requests and verifies the client certificate. If the client and the server choose another public key algorithm, for instance, Diffie-Hellman, the server sends a server key exchange message to send the public parameters.
+The client and the server tell each other what they can do through the hello messages (example, SSL version, cipher suite, compression method). The cipher suite is a list of algorithm tuples that are typically sorted in order of preferences. A tuple specifies:
+- The key establishment
+- Cipher, Cipher type, IV size, isExportable
+- MAC, hash size
+- Key material
+
+Some tuples are standard, example, SSL_RSA_WITH_3DES_EDE_CBC_SHA. Support key establishment scheme are:
+- RSA (certified to avoid meet-in-the-middle). The server sends the sertificate.
+- Fixed Diffie-Hellman (certified: fixed public parameters p and g). The server's public parameters (p,g,Y) are certified by a Certification Authority (CA). The client's certificate is required if client  authentication is required.
+- Ephemeral Diffie-Hellman (signed, dynamic public parameters). This protocol guarantees Perfect Forward Security. DH public keys are digitally signed (RSA or DSS). Signing keys are certified.
+- Anonymous Diffie-Hellman (non authenticated). DH without authentication. It is vulnerable to meet-in-the-middle attack.
+
+The certificate from the server is always requested except for anonymous Diffie-Hellman. For each alternative, the content of messages may change; some message may be empty. The server_key_exchange message is not requested in fived Diffie-Hellman and RSA. The format of the message depend on the chosen key exchange algorithm. The server_key_exchange is requested in anonymous Diffie-Hellman, ephemeral Diffie-Hellman, and RSA. Similarly, the format of the client_key_exchange message depends on the chosen key establishment. 
   
 </p>
 </details>
