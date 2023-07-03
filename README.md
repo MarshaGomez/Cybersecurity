@@ -503,6 +503,53 @@ Alice and Bob use the Diffie-Hellman protocol to establish a session key. Let $Y
 
 Assuming that the clocks of Alice, Bob, and Trent are not synchronized, design a protocol for the certification of the public parameters that allows achieving the following beliefs: $A \mid \equiv  \mapsto B$ and $B \mid \equiv  \mapsto A$
 
+<details><summary>Solution</summary>
+<p>
+
+1. **Initialization:**
+
+* Alice and Bob have their own public-private key pairs: $(P_{A}, S_{A})$ for Alice and $(P_{B}, S_{B})$ for Bob.
+* Alice and Bob share secret keys $K_a$ and $K_b$, respectively, with the trusted third party Trent.
+* Trent acts as the certification authority and has a public-private key pair: $(P_T, S_T)$.
+
+2. **Certification Protocol:**
+
+a. Alice to Trent:
+* Alice generates her Diffie-Hellman public parameter $Y_A$.
+* Alice creates a message to be certified: $M_{A} = (P_A, Y_A)$.
+* Alice signs the message using her private key: $Sig_{A} = Sign(M_A, S_A)$.
+* Alice sends the message and the corresponding signature to Trent: $(M_A, Sig_A)$.
+
+b. Trent to Bob:
+* Trent verifies the signature using Alice's public key $P_A$: $Verify(M_A, Sig_A, P_A)$.
+* If the verification fails, Trent rejects the certification.
+* If the verification is successful, Trent continues with the certification.
+* Trent generates his Diffie-Hellman public parameter $Y_T$.
+* Trent creates a message to be certified: $M_{T} = (P_T, Y_T)$.
+* Trent signs the message using his private key: $Sig_{T} = Sign(M_T, S_T)$.
+* Trent sends the message and the corresponding signature to Bob: $(M_T, Sig_T)$.
+
+c. Bob to Trent:
+* Bob verifies the signature using Trent's public key $P_T$: $Verify(M_T, Sig_T, P_T)$.
+* If the verification fails, Bob rejects the certification.
+* If the verification is successful, Bob trusts the public parameters $Y_A$ and $Y_T$.
+* Bob generates his Diffie-Hellman public parameter $Y_B$.
+* Bob creates a message to be certified: $M_{B} = (P_B, Y_B)$.
+* Bob signs the message using his private key: $Sig_{B} = Sign(M_B, S_B)$.
+* Bob sends the message and the corresponding signature to Trent: $(M_B, Sig_B)$.
+
+d. Trent to Alice:
+* Trent verifies the signature using Bob's public key $P_B$: $Verify(M_B, Sig_B, P_B)$.
+* If the verification fails, Trent rejects the certification.
+* If the verification is successful, Trent trusts the public parameters $Y_B$ and completes the certification.
+* Trent sends a confirmation to Alice that Bob's public parameters have been certified.
+* Key Exchange:
+
+After the certification of public parameters, Alice and Bob can proceed with the Diffie-Hellman key exchange using their respective public parameters $Y_A$ and $Y_B$. They can calculate the shared session key using the Diffie-Hellman algorithm. By following this protocol, Alice and Bob can establish a trusting relationship with the certification authority Trent and achieve the desired beliefs: $A \mid \equiv \mapsto B$ and $B \mid \equiv \mapsto A$.
+  
+</p>
+</details>
+
 ## 💻 Secure Coding
 
 ### Exercise n.1
