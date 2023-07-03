@@ -207,7 +207,20 @@ With reference to the Diffie-Hellmann key establishment protocol
 
 <details><summary>Solution</summary>
 <p>
+
+1. Describe the protocol:
+  - Alice chooses a random secret number a (private key)
+  - Bob chooses a random secret number b (private key)
+  - Alice sends to Bob a message: $Y_A \equiv g^a mod p$ (public key, so it is sent in clear)
+  - Bob sends to Alice a message: $Y_B \equiv g^b mod p$ (public key, so it is sent in clear)
+  - Alice computes $K_{AB} \equiv (Y_B)^a \equiv g^{ab} mod p$
+  - Bob computes $K_{AB} \equiv (Y_A)^b \equiv g^{ab} mod p$
+
+Bob and Alice compute the same quantity which is the shared key. The Diffie-Hellman is very elegant; it involves four exponentiation and two messages.
+
+2. Security: Assume that an adversary eavesdrop $p,g, Y_A \equiv g^a mod p$ and $Y_B \equiv g^b mod p$ and wants to compute $K_{AB}$. The Diffie-Hellman problem is, given those quantities, compute $g^{ab} mod p$. This problem is as simple as the logarithm problem $(DHP \leq_p DLP)$
   
+
 </p>
 </details>
 
