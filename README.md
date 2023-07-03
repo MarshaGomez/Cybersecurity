@@ -236,12 +236,23 @@ Bob and Alice compute the same quantity which is the shared key. The Diffie-Hell
 
 ### Exercise n.9 
 
-1) Describe the key generation algorithm of the RSA encryption scheme.
-2) Discuss the complexity of each algorithm step.
+1. Describe the key generation algorithm of the RSA encryption scheme.
+2. Discuss the complexity of each algorithm step.
 
 <details><summary>Solution</summary>
 <p>
+
+1. RSA Key generation algorithm:
+     - Choose two primes numbers p,q
+     - Compute the modulus $n = p \times q$
+     - Calculate the Euler's Phi function $\phi (n) = (p-1) \times (q-1)$ . $\phi (n)$ returns the number of integers $\mathbb{Z}_n$ coprime with $n$.
+     - Randomly select the public (encryption) exponent: $e: 1<e< \phi (n)$ s.t $gcd(e, \phi (n)) = 1$. $e$ is coprime with $\phi (n)$
+     - Compute the unique private (decryption) exponent: $d: 1<d< \phi$ s.t $d \equiv 1 mod \phi$. This equivalence contains one unknown (d). We can compute d from the equation $e \cdot d = 1 + t \phi$ for a certain value t (it denotes a multiple of $\phi$, we are not interested in particular value). We are able to solve this equation becaue $e$ is coprime with $\phi (n)$ and the solution is $d = e^{-1} mod \phi$
+     - Private key: (d,n)
+     - Public key: (e,n)
   
+2. Discuss the complexity of each algorithm step: Primes p and q are $100 \div 200$ decimal digits, nowadays are around 1024 bit. Condition $gcd(e, \phi (n)) = 1$ guarantees that d exists and is unique. At the end of key generation p and q must be deleted. If an adversary finds them, it will be able to compute e,d and n. Two parts of the algorithm are not-trivial; step 1, because it is very demanding (large prime numbers), steps 4-5 (Step 5 it is crucial for RSA correctness).
+   
 </p>
 </details>
 
@@ -298,7 +309,46 @@ Within Scheme 2, assume that users employ 8 characters chosen over the English l
 
 <details><summary>Solution</summary>
 <p>
+
+* **A. Security of Scheme 1 against Rainbow Table Attack:**
+
+Scheme 1, which involves computing $h = MD5^{1000}(p) \oplus s$ and storing (h, s) in the password file, provides some level of protection against rainbow table attacks.
+
+Rainbow table attacks rely on precomputed tables of hashed values for a large set of possible plaintext passwords. However, in Scheme 1, the salt (s) is combined with the result of multiple iterations of the MD5 hashing function applied to the plaintext password (p). This salted value (h) is then stored in the password file.
+
+The use of salt introduces a unique and random component to each hashed password, making it infeasible to create a precomputed rainbow table that covers all possible salt values. Therefore, even if an attacker has access to the password file, they cannot easily retrieve the original passwords using a rainbow table.
+
+However, it's important to note that MD5 is a relatively weak hashing algorithm, and performing only 1000 iterations of MD5 may not provide sufficient protection against modern attacks. Stronger and more secure hashing algorithms, such as SHA-256 or bcrypt, are recommended for better resistance against brute-force and dictionary attacks.
+
+* **B. Security of Scheme 2 against Rainbow Table Attack:**
   
+Scheme 2, which involves computing $h = MD5^{1000}(p || s)$ and storing (h, s) in the password file, is generally considered more secure against rainbow table attacks compared to Scheme 1.
+
+In Scheme 2, the salt (s) is concatenated with the plaintext password (p) before applying the hashing function. This ensures that each password is hashed with a unique salt value. The resulting salted hash (h) is stored along with the salt in the password file.
+
+By incorporating the salt directly into the hashing process, Scheme 2 further strengthens the resistance against rainbow table attacks. It prevents the use of precomputed rainbow tables because the salted hash values are specific to the individual password and salt combination.
+
+* **C. Determining Salt Length to Prevent Rainbow Table Attack:**
+
+To prevent an attacker from employing a rainbow table attack and computing $2^{70}$ passwords, the length of the salt should be sufficient to ensure a large enough salt space.
+
+If we assume that the salt is randomly generated and each character can be chosen from the set of 26 lowercase English alphabets, 10 digits, and the underscore symbol (total 37 characters), we can calculate the required salt length as follows:
+
+Total salt space = Number of possible characters ^ Salt length
+
+- For $2^{70}$ possible passwords, we have:$2^{70} = 37^{\text{Salt length}}$
+- Taking the logarithm base 37 on both sides: $70 = \log_{37}(2^{70}) = \text{Salt length}$
+
+Therefore, the salt should be at least 70 characters long to prevent an attacker from computing $2^{70}$ passwords using a rainbow table attack.
+
+* **D. Preventing Brute Force Attack with the Random Salt Length:**
+  
+The amount of random salt discussed in the previous answer (70 characters) would also effectively prevent an attacker from brute-forcing a single password. Brute-forcing involves trying all possible combinations until the correct password is found.
+
+With a salt length of 70 characters, even with a powerful computational setup, it would be computationally infeasible for an attacker to iterate through all possible salt values in order to find the correct password. The large salt space makes it highly unlikely for an attacker to successfully brute force a single password within a reasonable amount of time.
+
+It's important to note that the choice of a strong and slow hashing algorithm (such as bcrypt or Argon2) is also crucial to resist brute force attacks, as it significantly slows down the hashing process and increases the computational cost for the attacker.
+
 </p>
 </details>
 
