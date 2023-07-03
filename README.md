@@ -411,21 +411,41 @@ Answer the following questions.
 
 <details><summary>Solution</summary>
 <p>
-  
+
+1. The size of the digital signature is determined by the number of bits required to represent each element in the signature. In this case, each element in the signature $D_i$ is chosen from $S^0$ or $S^1$, which are sequences of 256 elements each. Since each element can be represented using 256 bits (as defined in the key generation algorithm), the digital signature size is 256 * 256 = 65,536 bits.
+
+2. The signature verification algorithm for this scheme is as follows:
+* Given a message $m$, its digital signature $D$, and the public key $P$, perform the following steps for each bit $m_i$ and the corresponding element $D_i$ in the digital signature:
+Compute $P_i$ as $H(S_i^{m_i})$ using the one-way hash function $H()$.
+If $P_i$ matches $P_i^{m_i}$ from the public key, continue to the next bit.
+If $P_i$ does not match $P_i^{m_i}$ for any $m_i$ and $D_i$, the signature verification fails, indicating that the signature is not valid.
+
+3. The unforgeability of the signature scheme relies on the random selection of elements from the private key $S$ and the computational hardness of the one-way hash function $H()$. Since the private key $S$ is chosen randomly and independently for each bit of the message, it is computationally infeasible for an attacker to guess the correct signature elements $S_i^0$ and $S_i^1$ based on the observed signatures $D_i$. Additionally, the one-way hash function $H()$ makes it computationally infeasible to find a pre-image for a given hash value, ensuring that the public key $P$ cannot be used to derive the private key $S$ and forge valid signatures.
+
+4. In this signature scheme, it is not possible to generate an existential forgery attack to produce a valid pair (z, Z) if the secret key is used to sign two different messages x and y. This is because the signature generation algorithm directly uses the secret key $S$ to determine the elements in the signature $D$, based on the bits of the message. Since the signature elements are completely determined by the secret key, it is not possible to generate a valid signature for any other message without knowing the secret key. Therefore, an attacker cannot forge a valid pair (z, Z) without knowledge of the secret key used for signing.
+
 </p>
 </details>
 
 ### Exercise n.5
 Assume a threat model in which an adversary can steal the password file and perform an off-line Rainbow Table attack.
-* Assume we adopt the following salted hashing technique: $h = H^{1000}(p) \oplus s$ where $p$ is the plaintext password, $s$ is a 128-bit random salt, and $H$ is a secure one-way has function. The pair $(h, s)$ is stored in the password file on disk. Is this approach secure? Explain why.
-* Assume now we adopt the following salted hashing technique: $h = H(p||s)$ and again, we store the pair $(h, s)$ in the password file on disk. Is this choice better than the previous one? Explain why.
-* With reference to the second hashing scheme, if users employ 8 characters passwords chosen over the lowercase alphanumeric characters, how many bits long should be the salt to prevent an attacker able to (pre-)compute 270 passwords from employing a Rainbow Table attack?
-* Does the previous amount of random salt prevent an attacker from brute-forcing a single password?
+1. Assume we adopt the following salted hashing technique: $h = H^{1000}(p) \oplus s$ where $p$ is the plaintext password, $s$ is a 128-bit random salt, and $H$ is a secure one-way has function. The pair $(h, s)$ is stored in the password file on disk. Is this approach secure? Explain why.
+2. Assume now we adopt the following salted hashing technique: $h = H(p||s)$ and again, we store the pair $(h, s)$ in the password file on disk. Is this choice better than the previous one? Explain why.
+3. With reference to the second hashing scheme, if users employ 8 characters passwords chosen over the lowercase alphanumeric characters, how many bits long should be the salt to prevent an attacker able to (pre-)compute 270 passwords from employing a Rainbow Table attack?
+4. Does the previous amount of random salt prevent an attacker from brute-forcing a single password?
 
 
 <details><summary>Solution</summary>
 <p>
-  
+
+1. The first approach of using the salted hashing technique $h = H^{1000}(p) \oplus s$ is not secure against an off-line Rainbow Table attack. The main issue is that the hashing is not computationally expensive enough to slow down the attacker significantly. While the salt adds some randomness to the hash, the repeated application of the one-way hash function $H$ for only 1000 iterations may still be susceptible to efficient precomputation using a Rainbow Table attack. A determined attacker could precompute a large number of hashes for common passwords and corresponding salts, making it easier to look up and reverse the hashed passwords.
+
+2. The second approach of using the salted hashing technique $h = H(p||s)$ is a better choice than the previous one. Concatenating the password $p$ and salt $s$ together and then hashing them with a secure one-way hash function provides better security. In this scheme, each password is hashed using a unique salt, preventing attackers from efficiently precomputing hashes using Rainbow Tables. Even if the attacker has access to a precomputed table, the use of unique salts makes it impractical to reverse the hashed passwords.
+
+3. If users employ 8-character passwords chosen from lowercase alphanumeric characters (26 lowercase letters + 10 digits), there are a total of 36 possible characters for each position. Since we have 8 positions in the password, the total number of possible passwords is 36^8 ≈ 2.8 x 10^12. To prevent an attacker from employing a Rainbow Table attack to precompute hashes for all possible passwords, the salt should be long enough to ensure that the attacker cannot precompute all possible combinations. In this case, the salt should be at least log2(2.8 x 10^12) ≈ 41.9 bits long to provide sufficient protection against Rainbow Table attacks.
+
+4. The amount of random salt used does not directly prevent an attacker from brute-forcing a single password. Brute-forcing involves trying all possible passwords until the correct one is found. However, the use of a unique salt for each password complicates the attacker's task because they would need to compute the hash for each guessed password individually, instead of being able to use precomputed tables or techniques like Rainbow Tables. The random salt adds complexity and makes it computationally expensive for an attacker to crack individual passwords, even if they have the hashed passwords and corresponding salts.
+
 </p>
 </details>
 
@@ -441,6 +461,12 @@ with $i \neq j$, are the same.
 
 <details><summary>Solution</summary>
 <p>
+
+1. If two different ciphertext blocks $c_i$ and $c_j$ are the same, it does leak information regarding the plaintext blocks $m_i$ and $m_j$. Since the CBC (Cipher Block Chaining) mode of operation XORs the plaintext blocks with the previous ciphertext block before encryption, if $c_i = c_j$, it means that the XOR of the previous ciphertext blocks with $m_i$ and $m_j$ is the same. This implies that $m_i \oplus c_{i-1} = m_j \oplus c_{j-1}$, which reveals a relationship between the plaintext blocks.
+
+2. Using 3DES (Triple Data Encryption Standard) instead of DES does not completely avoid the information leakage caused by two different ciphertext blocks being the same. Although 3DES provides a higher level of security due to its increased key size and complexity, it still operates in the same CBC mode. Therefore, if $c_i = c_j$ in 3DES-CBC, it can still leak information about the relationship between $m_i$ and $m_j$, albeit with a higher level of difficulty for an attacker to exploit.
+
+3. To mitigate the attack where two different ciphertext blocks are the same, known as a "collision" or "same ciphertext attack," we can use a technique called "initialization vector (IV) uniqueness." The IV is an additional input to the encryption process, and it should be different for each message encrypted with the same key. By ensuring that each message has a unique IV, even if the plaintext blocks are the same, the resulting ciphertext blocks will be different. This prevents the leakage of information and makes it harder for an attacker to deduce relationships between the plaintext blocks. It is important to generate IVs randomly and ensure they are never reused with the same key.
   
 </p>
 </details>
@@ -455,7 +481,19 @@ Assume that a file (possibly the whole volume) is stored in its encrypted form u
 
 <details><summary>Solution</summary>
 <p>
-  
+
+1. AES-128-CBC is vulnerable to a malleability attack due to the nature of the CBC mode of operation. In CBC mode, each plaintext block is XORed with the previous ciphertext block before encryption. This XOR operation introduces a form of "error propagation" where changes in the ciphertext block affect the decryption of the next plaintext block.
+To perform a controlled modification to a given location of the plaintext file while operating on the encrypted version, an attacker can follow these steps:
+
+* Let's assume the attacker wants to modify a specific block, denoted as Block X, in the plaintext file.
+* The attacker selects a ciphertext block, denoted as Ciphertext Y, that corresponds to the block following Block X in the encrypted file.
+* The attacker modifies Ciphertext Y to produce a new ciphertext block, denoted as Ciphertext Y'.
+* When the encrypted file is decrypted, the modified ciphertext Ciphertext Y' will affect the decryption of Block X, resulting in a controlled modification to the corresponding plaintext block.
+
+4.The price the adversary must pay for the malleability attack in this case is that they need to have access to the encrypted file and the ability to modify the ciphertext blocks. This means they must be able to intercept the communication or have gained unauthorized access to the encrypted file. Additionally, the attacker needs to correctly determine the position and content of the ciphertext block to modify, as well as ensure that the modification produces the desired effect on the corresponding plaintext block.
+
+3. Inserting a parity bit in each file block does not mitigate or prevent the malleability attack. The parity bit serves as a basic integrity check, allowing the detection of errors in data transmission or storage. However, it does not protect against intentional modifications to the ciphertext. In a malleability attack, the attacker modifies the ciphertext block itself, which can still be done regardless of the presence of a parity bit. The attacker can simply adjust the parity bit accordingly to maintain the integrity of the modified ciphertext block, ensuring that the change is not detected by the parity check. Therefore, while parity bits can be useful for detecting unintentional errors, they do not provide protection against malleability attacks.
+
 </p>
 </details>
 
