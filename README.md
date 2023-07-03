@@ -364,7 +364,7 @@ A client C and server S share a password P. Furthermore, C knows the public key 
 
 ### Exercise n.4
 
-Let m be a 256-bit message and mi denote the i-th. Consider the following one-time digital signature scheme.
+Let m be a 256-bit message and $m_i$ denote the i-th. Consider the following one-time digital signature scheme.
 * Key generation algorithm.
   1. Generate two random sequences $S^0$ and $S^1$, both of 256 elements, defined as follows: $𝑆^𝑘 = {𝑆_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑆_{𝑖}^𝑘 ← random()|_{256}$. Let $S = {S^0, S^1}$ be the private key.
   2. Generate two sequences $P^0$ and $P^1$, defined as follows $𝑃^𝑘 = {𝑃_{𝑖}^𝑘 , 1 ≤ 𝑖 ≤ 256}, 0 ≤ 𝑘 ≤ 1, s.t., 𝑃𝑖𝑘 ← 𝐻(𝑆_{𝑖}^𝑘)$, where H() is a 256-bit one-way hash function. Let $P = {P^0, P^1}$ be the public key.
