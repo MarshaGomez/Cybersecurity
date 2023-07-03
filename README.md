@@ -200,27 +200,37 @@ It's important to note that the security of a certificate also depends on the se
 
 With reference to the Diffie-Hellmann key establishment protocol
 1. Describe the protocol;
-2. Argue about the security of the protocol w.r.t. to a passive adversary;
-3. Argue about the security of the protocol w.r.t. to an active adversary;
+2. Argue about the security of the protocol w.r.t. a passive adversary;
+3. Argue about the security of the protocol w.r.t. an active adversary;
 4. Discuss a possible solution to the MIM attack
 
+````mermaid
+sequenceDiagram
+    Alice->>Oscar [meet-in-the-middle]: M1: A, g^a mod p
+    Oscar [meet-in-the-middle]-->>Bob: M1': A, g^c mod p
+    Bob-->>Oscar [meet-in-the-middle]: M2: B, g^b mod p
+    Oscar [meet-in-the-middle]-->>Alice: M2': B, g^c mod p
+````
 
 <details><summary>Solution</summary>
 <p>
 
 1. Describe the protocol:
-  - Alice chooses a random secret number a (private key)
-  - Bob chooses a random secret number b (private key)
-  - Alice sends to Bob a message: $Y_A \equiv g^a mod p$ (public key, so it is sent in clear)
-  - Bob sends to Alice a message: $Y_B \equiv g^b mod p$ (public key, so it is sent in clear)
+  - Alice chooses a random secret number $a$ (private key)
+  - Bob chooses a random secret number $b$ (private key)
+  - Alice sends Bob a message: $Y_A \equiv g^a mod p$ (public key, so it is sent in clear)
+  - Bob sends Alice a message: $Y_B \equiv g^b mod p$ (public key, so it is sent in clear)
   - Alice computes $K_{AB} \equiv (Y_B)^a \equiv g^{ab} mod p$
   - Bob computes $K_{AB} \equiv (Y_A)^b \equiv g^{ab} mod p$
 
 Bob and Alice compute the same quantity which is the shared key. The Diffie-Hellman is very elegant; it involves four exponentiation and two messages.
 
-2. Security: Assume that an adversary eavesdrop $p,g, Y_A \equiv g^a mod p$ and $Y_B \equiv g^b mod p$ and wants to compute $K_{AB}$. The Diffie-Hellman problem is, given those quantities, compute $g^{ab} mod p$. This problem is as simple as the logarithm problem $(DHP \leq_p DLP)$
-  
+2. Security of the protocol with respect to a passive adversary: Assume that an adversary eavesdrop $p,g,$ $Y_A \equiv g^a mod p$ and $Y_B \equiv g^b mod p$ and wants to compute $K_{AB}$. The Diffie-Hellman problem is, given those quantities, compute $g^{ab} mod p$. This problem is as simple as the discrete logarithm problem $(DHP \leq_p DLP)$, so if DLP can be easily solved, then DHP can be easily solved. Unfortunately, there is no proof of the converse (if DLP is difficult, then DHP is difficult). At the moment, we do not see any way to compute $K_{AB}$ from $Y_A$ and $Y_B$ without first obtaining either a or b.
 
+3. Security of the protocol with respect to an active adversary: It suffers from meet-in-the-middle attacks. The adversary can replace both $g^a$ and $g^b$ with $g^c$. Alice believes in sharing a key with Bob, whereas she shares it with an adversary. So does Bob. The problem is that M1' and M2' carry no proof that $g^c$ is Alice's/Bob's public key. Nothing in the message M1 indissolubly links the identifier Alice to the public key $g^a$. We have an authentication problem that can be solved with certificates.
+
+4. Plain Diffie Hellman Key Exchange suffers from the meet-in-the-middle attack because the message for exchanging the keys is not authenticated (no link between the key). The solution is using certificates. A certificate is a data structure that cryptographically links the identifier of a subject to the subject public key.
+   
 </p>
 </details>
 
