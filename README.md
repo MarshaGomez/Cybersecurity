@@ -120,7 +120,28 @@ The certificate from the server is always requested except for anonymous Diffie-
 
 <details><summary>Solution</summary>
 <p>
-  
+
+Authenticated Encryption (AE) schemes provide both confidentiality and integrity by encrypting the plaintext message and generating an authentication tag that ensures the message's integrity. Here, I'll illustrate the general structure of an AE scheme and then specifically explain the "encrypt then authenticate" approach.
+
+Authenticated Encryption Scheme (Encrypt and Authenticate):
+Encryption: The scheme takes as input a plaintext message $M$ and a secret key $K$. It encrypts the message using a symmetric encryption algorithm, resulting in a ciphertext $C$.
+Authentication: The scheme generates an authentication tag $T$ based on the ciphertext $C$ and the secret key $K$. The authentication tag is computed using a message authentication code (MAC) algorithm or a cryptographic hash function. It ensures the integrity and authenticity of the ciphertext.
+Output: The scheme outputs the ciphertext $C$ and the authentication tag $T$.
+The ciphertext $C$ and the authentication tag $T$ are typically sent together to the recipient. Upon receiving the ciphertext and the authentication tag, the recipient can verify the integrity of the ciphertext by recomputing the authentication tag using the received ciphertext and the shared secret key. If the computed authentication tag matches the received tag, the recipient can be confident that the ciphertext has not been tampered with.
+
+Now, let's focus on the "encrypt then authenticate" approach, which is a specific design pattern within AE schemes:
+
+AE Scheme: "Encrypt then Authenticate":
+Encryption: The plaintext message $M$ is first encrypted using a symmetric encryption algorithm, resulting in a ciphertext $C$.
+Authentication: The ciphertext $C$ is then authenticated using a MAC algorithm or a cryptographic hash function, generating an authentication tag $T$. The authentication process operates on the encrypted ciphertext, ensuring that any modification or tampering with the ciphertext will be detected.
+Output: The scheme outputs the ciphertext $C$ and the authentication tag $T$.
+In the "encrypt then authenticate" approach, the authentication process is applied to the encrypted ciphertext rather than the plaintext. This ensures that the integrity of the ciphertext is protected, and any unauthorized modification will be detected before decryption.
+
+Security Considerations:
+The AE scheme, when properly implemented and used correctly, can provide both confidentiality and integrity of the encrypted messages. However, the security of the scheme depends on the choice of encryption algorithm, MAC algorithm, and key management practices. It is essential to use strong and secure algorithms and ensure the secure exchange and storage of encryption keys and authentication keys. Additionally, proper handling of initialization vectors (IVs) and nonce values is crucial to prevent certain attacks.
+
+Overall, AE schemes are widely used and considered secure when implemented correctly with appropriate cryptographic primitives and key management practices. It is essential to follow recommended best practices and stay updated with the latest advancements in cryptography to ensure the security of AE implementations.
+
 </p>
 </details>
 
