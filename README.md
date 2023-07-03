@@ -354,10 +354,34 @@ It's important to note that the choice of a strong and slow hashing algorithm (s
 
 ### Exercise n.3
 
-A client C and server S share a password P. Furthermore, C knows the public key s of the server S. Client’s and server’s clocks are not synchronized. Design a protocol that makes it possible to establish a symmetric session key kcs between the client and the server. The protocol must avoid both the replay attack and the offline password-guessing attack. Furthermore, it must satisfy the key authentication and key confirmation properties.
+A client C and server S share a password P. Furthermore, C knows the public key $\prod_S$ of the server S. Client’s and server’s clocks are not synchronized. Design a protocol that makes it possible to establish a symmetric session key $k_{cs}$ between the client and the server. The protocol must avoid both the replay attack and the offline password-guessing attack. Furthermore, it must satisfy the key authentication and key confirmation properties.
 
 <details><summary>Solution</summary>
 <p>
+
+  1. **Initialization:**
+* Client C generates a random nonce Nc and sends it to server S.
+* Server S generates a random nonce Ns, computes the ciphertext Ciphertext_P = Encrypt(P, $\prod_S$), where Encrypt is the encryption function using the server's public key, and sends it to the client C.
+
+  2. **Client-Server Authentication:**
+* Client C verifies the received ciphertext Ciphertext_P using its private key, Decrypt(Ciphertext_P, Private_Key_C), to obtain the password P.
+* Client C computes the value Hash_P = Hash(P), where Hash is a secure hash function, and sends it to server S.
+* Server S compares the received Hash_P with the stored hash value of the password it has.
+  
+  3. **Server Authentication:**
+* Server S generates a random nonce Ns', computes the ciphertext Ciphertext_Ns' = Encrypt(Ns', $\prod_C$), where Encrypt is the encryption function using the client's public key, and sends it to the client C.
+* Client C verifies the received ciphertext Ciphertext_Ns' using its private key, Decrypt(Ciphertext_Ns', Private_Key_C), to obtain Ns'.
+* Client C sends the concatenation of Nc, Ns, and Ns' to server S.
+
+  4. **Session Key Generation:**
+* Server S computes the session key K = Hash(Nc || Ns || Ns') and sends it to the client C.
+* Client C also computes the session key K' = Hash(Nc || Ns || Ns').
+
+5. **Key Confirmation:**
+* Client C sends the encrypted value Ciphertext_K = Encrypt(K, $\prod_S$) to server S.
+* Server S decrypts the received ciphertext Ciphertext_K using its private key, Decrypt(Ciphertext_K, Private_Key_S), to obtain K.
+* Server S compares the received K with its computed K'.
+* If the comparison is successful, both client C and server S have confirmed the correctness of the session key.
   
 </p>
 </details>
